@@ -50,14 +50,9 @@ fn find_any_digit_str(stack: &VecDeque<char>) -> Option<usize> {
 }
 
 fn find_digit_or_str(input: &str) -> u32 {
-    let mut stack: VecDeque<char> = VecDeque::from([' '; 5]);
     let mut values = Vec::new();
 
     for c in input.chars() {
-        if stack.len() == 5 {
-            stack.pop_front();
-        }
-        stack.push_back(c);
         let a = find_any_digit_str(&stack);
         if let Some(a) = a {
             values.push(char::from_digit(a as u32, 10).unwrap());
@@ -77,12 +72,7 @@ fn parse1(input: &str) -> u32 {
 }
 
 fn parse(input: &str, f: fn(&str) -> u32) -> u32 {
-    let mut sum: u32 = 0;
-    for line in input.lines() {
-        let out = f(line);
-        sum += out;
-    }
-    sum
+    input.lines().map(f).sum::<u32>()
 }
 
 fn parse2(input: &str) -> u32 {
